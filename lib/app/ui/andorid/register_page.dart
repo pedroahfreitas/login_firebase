@@ -1,10 +1,11 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_firebase/app/controller/login_controller.dart';
-import 'package:login_firebase/app/routes/app_routes.dart';
 
-class LoginPage extends StatelessWidget {
-  final LoginController _loginController = Get.find<LoginController>();
+class RegisterPage extends StatelessWidget {
+  final LoginController _loginController = LoginController();
   final _formkey = GlobalKey<FormState>();
 
   @override
@@ -23,9 +24,36 @@ class LoginPage extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 48.0,
-                    child: Image.asset("assets/logo1.png"),
+                    child: Image.asset("assets/logo.png"),
                   )),
+              SizedBox(height: 18.0),
+              Center(
+                child: Text(
+                  "CADASTRAR",
+                  style: TextStyle(fontSize: 22.0),
+                ),
+              ),
               SizedBox(height: 48.0),
+              TextFormField(
+                controller: _loginController.nameTextController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Campo Obrigatório";
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.emailAddress,
+                autofocus: false,
+                //initialValue: "emailteste@gmail.com",
+                decoration: InputDecoration(
+                    hintText: "Nome",
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    )),
+              ),
+              SizedBox(height: 18.0),
               TextFormField(
                 controller: _loginController.emailTextController,
                 validator: (value) {
@@ -73,12 +101,12 @@ class LoginPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if(_formkey.currentState!.validate()) {
-                        _loginController.login();
+                      if (_formkey.currentState!.validate()) {
+                        _loginController.register();
                       }
                     },
                     child: Text(
-                      'Acessar',
+                      'Cadastrar',
                       style: TextStyle(color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -89,18 +117,11 @@ class LoginPage extends StatelessWidget {
                     ),
                   )),
               TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Esqueceu a senha?",
-                  style: TextStyle(color: Get.theme.primaryColor),
-                ),
-              ),
-              TextButton(
                 onPressed: () {
-                  Get.toNamed(Routes.REGISTER);
+                  Get.back();
                 },
                 child: Text(
-                  "Cadastra-se?",
+                  "Voltar para login",
                   style: TextStyle(color: Get.theme.primaryColor),
                 ),
               ),
